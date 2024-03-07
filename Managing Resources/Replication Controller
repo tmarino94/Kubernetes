@@ -1,0 +1,26 @@
+nano replication_controller.yml
+kubectl apply -f replication_controller.yml
+kubectl get pods
+kubectl describe rc/nginx
+kubectl delete pods -l app=nginx
+kubectl get pods
+kubectl delete rc nginx
+
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx
+spec:
+  replicas: 2
+  selector:
+    app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest

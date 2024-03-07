@@ -1,0 +1,29 @@
+nano daemonset.yml
+kubectl apply -f daemonset.yml
+kubectl get daemonset
+kubectl describe daemonset
+kubectl get pods -o wide
+kubectl delete daemonset prometheus-daemonset
+
+
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: prometheus-daemonset
+spec:
+  selector:
+    matchLabels:
+      tier: monitoring
+      name: prometheus-exporter
+  template:
+    metadata:
+      labels:
+        tier: monitoring
+        name: prometheus-exporter
+    spec:
+      containers:
+      - name: prometheus
+        image: quay.io/gauravkumar9130/prometheus
+        ports:
+        - containerPort: 80

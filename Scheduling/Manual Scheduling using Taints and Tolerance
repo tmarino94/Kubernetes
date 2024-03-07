@@ -1,0 +1,46 @@
+###### STEP 1 #######
+nano pod_with_taint.yml
+kubectl apply -f pod_with_taint.yml
+kubectl get pods -o wide
+kubectl get nodes
+kubectl taint nodes <node-name> color=red:NoSchedule
+kubectl describe node worker1 | grep Taints
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod-with-taint
+spec:
+  tolerations:
+  - key: color
+    value: red
+    effect: NoSchedule
+  containers:
+  - name: my-container
+    image: quay.io/gauravkumar9130/nginxdemo
+
+
+
+###### STEP 2 ######
+nano pod_taint.yml
+kubectl apply -f pod_taint.yml
+kubectl get pods -o wide
+kubectl taint nodes <nodename> color-
+kubectl describe node <nodename> | grep Taints
+kubectl delete -f pod_taint.yml
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  tolerations:
+  - key: color
+    value: red
+    effect: NoExecute
+  containers:
+  - name: my-container
+    image: quay.io/gauravkumar9130/nginxdemo

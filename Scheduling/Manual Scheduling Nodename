@@ -1,1 +1,36 @@
-w
+nano random-pod.yaml
+kubectl create -f random-pod.yaml
+kubectl get pods -o wide
+kubectl get node
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-random-scheduling
+  name: nginx-random-scheduling
+spec:
+  containers:
+  - image: quay.io/gauravkumar9130/nginx
+    name: nginx
+
+
+###### STEP 2 ######
+nano pod-manual-scheduled.yaml : Change nodename with desired node 
+kubectl apply -f pod-manual-scheduled.yaml
+kubectl get pods -o wide
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-manual-scheduling
+  name: nginx-manual-scheduling
+spec:
+  nodeName: worker2
+  containers:
+  - name: nginx
+    image: quay.io/gauravkumar9130/nginxdemo

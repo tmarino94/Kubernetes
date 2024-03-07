@@ -1,0 +1,47 @@
+######### STEP 1 ##########
+nano ecom.yml
+kubectl apply -f ecom.yml
+kubectl get pods -o wide
+
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: ecom
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecommerce
+  template:
+    metadata:
+      labels:
+        app: ecommerce
+    spec:
+      containers:
+      - name: c1
+        image: quay.io/gauravkumar9130/mywebapp
+
+
+######### STEP 2 ##########
+nano clusterip.yml
+kubectl apply -f clusterip.yml
+kubectl get svc
+kubectl describe service my-app
+curl <ip-address>:80
+kubectl delete svc my-app
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app
+spec:
+  type: ClusterIP
+  ports:
+  - targetPort: 80
+    port: 80
+  selector:
+    app: ecommerce
+
+

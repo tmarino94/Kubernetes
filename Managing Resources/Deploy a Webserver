@@ -1,0 +1,43 @@
+Deploying  a webserver as a pod 
+
+Verify Cluster Configuration
+kubectl version
+systemctl status kubelet : verify Kubelet service
+kubectl get pods --all-namespaces
+Create a pod with an apache server
+kubectl run server --image=httpd
+kubectl get pods
+kubectl exec server -it -- bash : Work inside container
+
+
+Create and publish the page
+cd /usr/local/apache2/htdocs
+echo "<html>Hi, We are testing web server</html>" > index.html
+exit
+Webserver accessibility Test
+kubectl describe pods server | grep IP
+curl <ip-of-pod>/index.html
+kubectl delete pods server
+Creating multiple containers in a pod
+nano dual_Cont_pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod1
+spec:
+  containers:
+    - name: c00
+      image: ubuntu
+      command: ["/bin/bash", "-c", "while true; do echo Hello-Coder; sleep 5 ; done"]
+    - name: c01
+      image: ubuntu
+      command: ["/bin/bash", "-c", "while true; do echo Hello-Programmer; sleep 5 ; done"]
+
+ kubectl apply -f dual_Cont_pod.yaml
+kubectl get pods
+kubectl exec -it testpod1 -c c00 -- /bin/bash : SSH into container 
+echo "Hello from inside the container" > myfile.txt
+exit
+kubectl exec -it testpod1 -c c00 -- ls /
+kubectl delete pods --all

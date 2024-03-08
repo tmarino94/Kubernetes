@@ -1,0 +1,33 @@
+nano cron-job.yaml
+kubectl apply -f cron-job.yaml
+kubectl get cronjob volume-snapshot-cronjob
+kubectl get job
+kubectl describe job volume-snapshot-cronjob
+kubectl logs -l app=volume-snapshot | grep -v "ls:"
+
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: volume-snapshot-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      completions: 1
+      template:
+        metadata:
+          labels:
+            app: volume-snapshot
+        spec:
+          containers:
+          - name: snapshot-container
+            image: quay.io/gauravkumar9130/busybox
+            command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              date
+              ls -la /data # Check contents of /data directory
+              echo "Snapshot taken at: $(date)"
+          restartPolicy: OnFailure

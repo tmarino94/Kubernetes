@@ -1,1 +1,80 @@
-w
+#### STEP 1 #####
+vim persistent_volume.yaml
+kubectl apply -f persistent_volume.yaml
+kubectl get pv
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/labs"			
+
+#### STEP 2 #####
+vim volume_claim.yaml
+kubectl apply -f volume_claim.yaml
+kubectl get pvc
+
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi    
+
+
+#### STEP 3 ######
+vim pvc_pod.yaml
+kubectl apply -f pvc_pod.yaml
+kubectl exec -it task-pv-pod -- bash
+cd /usr/share/nginx/html
+echo "hello world" > /usr/share/nginx/html/myfile.html
+exit
+kubectl get pods -o wide
+curl <ip-of-pod>/myfile.html
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-pv-pod
+spec:
+  volumes:
+  - name: task-pv-storage
+    persistentVolumeClaim:
+      claimName: task-pv-claim
+  containers:
+  - name: task-pv-container
+    image: quay.io/gauravkumar9130/nginx
+    volumeMounts:
+    - mountPath: "/usr/share/nginx/html"
+      name: task-pv-storage			
+
+
+#### STEP 4 WORKER 2 ######
+ls /mnt/labs
+exit
+
+
+##### STEP 5 ####
+kubectl delete pods task-pv-pod
+kubectl apply -f pvc_pod.yaml
+kubectl get pods -o wide
+curl <ip-of-pod>/myfile.html

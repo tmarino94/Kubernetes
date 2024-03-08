@@ -1,1 +1,30 @@
-w
+##### STEP 1 #####
+vim plain.yaml
+kubectl apply -f plain.yaml
+kubectl exec -it plain -- bash
+env
+mysql -u sam -p
+Enter password
+exit
+
+Leveraging environment variables (env) in Kubernetes allows dynamic configuration within pods, facilitating easy adjustments without altering container images. 
+This flexibility streamlines application deployment and management in diverse environments.
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: plain
+spec:
+  containers:
+  - name: c1
+    image: quay.io/gauravkumar9130/mysql
+    env:
+      - name: MYSQL_ROOT_PASSWORD
+        value: myroot
+      - name: MYSQL_USER
+        value: sam
+      - name: MYSQL_PASSWORD
+        value: sam12345			

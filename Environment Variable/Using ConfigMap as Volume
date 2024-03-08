@@ -1,0 +1,43 @@
+###### STEP 1 #####
+vim configmap.yaml
+kubectl apply -f configmap.yaml
+
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  MY_ENV_VARIABLE: "Hello from ConfigMap!"
+
+##### STEP 2 #####
+vim pod.yaml
+kubectl apply -f pod.yaml
+kubectl exec -it env-var-pod -- bash
+cat /etc/my-config/MY_ENV_VARIABLE
+exit
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-var-pod
+spec:
+  containers:
+  - name: my-container
+    image: quay.io/gauravkumar9130/nginx
+    env:
+    - name: MY_ENV_VARIABLE
+      valueFrom:
+        configMapKeyRef:
+          name: my-config
+          key: MY_ENV_VARIABLE
+    volumeMounts:
+    - name: env-var-volume
+      mountPath: "/etc/my-config"
+  volumes:
+  - name: env-var-volume
+    configMap:
+      name: my-config

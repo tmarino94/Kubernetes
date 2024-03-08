@@ -1,0 +1,88 @@
+###### STEP 1 ######
+vim nginx-deployment.yaml
+kubectl apply -f nginx-deployment.yaml
+kubectl get deployments
+kubectl get pods -o wide
+kubectl label nodes <node-name> performance=high
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx-container
+        image: quay.io/gauravkumar9130/nginx
+
+
+##### STEP 2 #####
+vim nginx-deployment-node-selector.yaml
+kubectl apply -f nginx-deployment-node-selector.yaml
+kubectl get pods -o wide
+kubectl describe deploy nginx-selector | grep Selector
+kubectl label nodes <node-name> disk=ssd
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-selector
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      nodeSelector:
+        performance: high
+      containers:
+      - name: nginx-container
+        image: quay.io/gauravkumar9130/nginx
+
+
+###### STEP 3 #####
+vim nginx-deployment-node-affinity.yaml
+kubectl apply -f nginx-deployment-node-affinity.yaml
+kubectl get pods -o wide
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-affinity
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disk
+                operator: In
+                values:
+                - ssd
+      containers:
+      - name: nginx-container
+        image: quay.io/gauravkumar9130/nginx

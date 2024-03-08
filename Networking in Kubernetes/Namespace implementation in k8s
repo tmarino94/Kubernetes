@@ -1,1 +1,19 @@
+#### STEP 1 #####
+kubectl get namespaces
+kubectl create namespace ns-1
 
+#### STEP 2 #####
+vim ns-2.yaml
+kubectl apply -f ns-2.yaml
+kubectl create deployment my-dep --image=quay.io/gauravkumar9130/nginx --replicas=1 --namespace=ns-1
+kubectl create deployment my-dep2 --image=quay.io/gauravkumar9130/nginx --replicas=1 --namespace=ns-2
+kubectl get pods --all-namespaces
+kubectl get pods -n ns-2
+kubectl delete namespace ns-1
+kubectl delete -f ns-2.yaml
+
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns-2			

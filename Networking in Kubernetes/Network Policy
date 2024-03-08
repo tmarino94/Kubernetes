@@ -1,0 +1,45 @@
+#### STEP 1 ####
+nano webpod.yml
+kubectl apply -f webpod.yml
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webpod
+  labels:
+    app: web
+spec:
+  containers:
+  - name: c1
+    image: quay.io/whizlabs-redhat/nginxdemo
+    securityContext:
+      capabilities:
+        add: ["NET_RAW"]
+
+
+##### STEP 2 #####
+nano networkpolicy.yml
+kubectl apply -f networkpolicy.yml
+kubectl get pods
+kubectl get networkpolicy
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-nginx-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: web
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: db
+

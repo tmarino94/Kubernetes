@@ -1,0 +1,113 @@
+#### STEP 1 #####
+kubectl run web --image=quay.io/gauravkumar9130/nginxdemo --labels=app=web --overrides='{"spec": {"containers": [{"name": "c1", "image": "quay.io/gauravkumar9130/nginxdemo", "securityContext": {"capabilities": {"add": ["NET_RAW"]}}}]}}'
+
+
+kubectl run db --image=quay.io/gauravkumar9130/nginxdemo --labels=app=db --overrides='{"spec": {"containers": [{"name": "c1", "image": "quay.io/gauravkumar9130/nginxdemo", "securityContext": {"capabilities": {"add": ["NET_RAW"]}}}]}}'
+
+kubectl get pods --show-labels
+
+#### STEP 2 #####
+nano np.yml
+kubectl apply -f np.yml
+kubectl get netpol
+kubectl get pods --show-labels
+nano np2.yml
+
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dbpolicy
+spec:
+  podSelector:
+    matchLabels:
+      app: db
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: web
+
+##### STEP 3 ####
+nano np2.yml
+kubectl apply -f np2.yml
+kubectl get netpol
+kubectl create namespace sales
+kubectl get ns sales --show-labels
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dbpolicy2
+spec:
+  podSelector:
+    matchLabels:
+      app: db
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: web
+    ports:
+    - protocol: TCP
+      port: 80
+
+
+
+#### STEP 4 #####
+nano netpol.yml
+kubectl apply -f netpol.yml
+kubectl get pods --show-labels
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sales-policy
+  namespace: sales
+spec:
+  podSelector:
+    matchLabels: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: sales
+
+
+##### STEP 5 #####
+nano np3.yml
+kubectl apply -f np3.yml
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dbpolicy3
+spec:
+  podSelector:
+    matchLabels:
+      app: db
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: web
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: web

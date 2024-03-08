@@ -1,0 +1,10 @@
+sudo apt-get install unzip
+wget https://labresources.whizlabs.com/a47a1b10487113afff392e9c80f5a5a6/whizlabs-kube-elk.zip && unzip whizlabs-kube-elk.zip
+cd whizlabs-kube-elk
+kubectl create -f 1-elastic.yml
+kubectl get pods -o wide
+nano 2-kibana.yml
+kubectl create -f 2-kibana.yml
+kubectl create -f 3-filebeat.yml
+<Worker-1-SSH-COMMAND> ec2metadata --public-ipv4
+kubectl get svc

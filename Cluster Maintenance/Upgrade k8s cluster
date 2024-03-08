@@ -1,1 +1,10 @@
-w
+kubectl version
+systemctl status kubelet
+kubectl get nodes
+kubectl cordon <nodename>
+kubectl get nodes
+kubectl drain <nodename> --force --ignore-daemonsets --delete-emptydir-data
+sudo kubeadm upgrade plan
+sudo kubeadm upgrade apply v1.xx.xx
+
+

@@ -1,0 +1,16 @@
+sudo su
+sudo apt install net-tools
+sudo apt install net-tools
+mkdir whiz-kube
+cd whiz-kube
+wget https://labresources.whizlabs.com/b8d1112725b9e0b5d2291ee220bb4fa6/whiz_user_script.sh
+chmod +x whiz_user_script.sh
+./whiz_user_script.sh
+kubectl auth can-i list pods -n newproject --as project01
+kubectl auth can-i list services -n newproject --as project01
+kubectl create role myrole --verb=get,list --resource=pods,services -n newproject
+kubectl describe role myrole -n newproject
+kubectl create rolebinding my-binding --role=myrole --user=project01 -n newproject
+kubectl auth can-i list pods -n newproject --as project01
+kubectl auth can-i list services -n newproject --as project01
+

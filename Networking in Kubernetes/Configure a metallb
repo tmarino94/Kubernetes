@@ -1,0 +1,6 @@
+kubectl version
+systemctl status kubelet
+kubectl get pods --all-namespaces
+wget https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
+kubectl apply -f metallb-native.yaml
+kubectl get pods -n metallb-system

@@ -1,1 +1,11 @@
-w
+#### STEP 1 MASTER #####
+git clone https://github.com/gauravkumar9130/grafana
+cd grafana/
+kubectl create -f 1-prometheus/.
+kubectl create -f 2-grafana/.
+kubectl get all -n monitoring
+
+#### STEP 2 Worker1 ####
+<Worker-1-SSH-COMMAND> ec2metadata --public-ipv4
+kubectl get svc -n monitoring
+kubectl rollout restart deployment coredns -n kube-system

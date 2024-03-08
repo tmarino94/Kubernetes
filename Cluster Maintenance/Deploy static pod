@@ -1,0 +1,29 @@
+##### STEP 1 Worker1 #####
+sudo cat /var/lib/kubelet/config.yaml
+cd /etc/kubernetes/manifests
+sudo vim static-web.yaml
+exit
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    type: stat
+spec:
+  containers:
+  - name: web
+    image: quay.io/gauravkumar9130/nginx			
+
+##### STEP 2 ##### Master 
+kubectl get pods
+kubectl delete pod <pod-name>
+kubectl get pods
+exit
+
+
+##### STEP 3 #####
+sudo rm -rf /etc/Kubernetes/manifests/static-web.yaml
+

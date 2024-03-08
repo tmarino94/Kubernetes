@@ -1,0 +1,40 @@
+kubectl version
+systemctl status kubelet
+kubectl get nodes
+kubectl create ns test
+kubectl run mypod --image=nginx -n test
+kubectl get pods -n test
+sudo apt-get install etcd-client
+sudo su
+
+ETCDCTL_API=3 etcdctl \
+--endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/kubernetes/pki/etcd/ca.crt \
+--cert=/etc/kubernetes/pki/etcd/server.crt \
+--key=/etc/kubernetes/pki/etcd/server.key \
+snapshot save /tmp/etcd.db
+
+kubectl delete ns test
+
+ETCDCTL_API=3 etcdctl \
+--endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/kubernetes/pki/etcd/ca.crt \
+--cert=/etc/kubernetes/pki/etcd/server.crt \
+--key=/etc/kubernetes/pki/etcd/server.key \
+snapshot status /tmp/etcd.db
+
+
+systemctl stop kubelet
+
+ETCDCTL_API=3 etcdctl \
+--endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/kubernetes/pki/etcd/ca.crt \
+--cert=/etc/kubernetes/pki/etcd/server.crt \
+--key=/etc/kubernetes/pki/etcd/server.key \
+snapshot restore /tmp/etcd.db
+
+rm -rf /var/lib/etcd/member
+mv default.etcd/member /var/lib/etcd
+systemctl start kubelet
+reboot
+kubectl get pods -n test

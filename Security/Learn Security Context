@@ -1,0 +1,52 @@
+kubectl run pod01 --image=quay.io/gauravkumar9130/nginxdemo
+kubectl run pod02 --image=quay.io/gauravkumar9130/nginxdemo
+kubectl get pods -o wide
+kubectl exec -it pod01 -- sh
+ping <POD2 IP>
+kubectl delete pod pod01 pod02
+
+
+###### STEP 2 ######
+vim webpod.yml
+kubectl apply -f webpod.yml
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webpod
+  labels:
+    app: web
+spec:
+  containers:
+  - name: c1
+    image: quay.io/gauravkumar9130/nginxdemo
+    securityContext:
+      capabilities:
+        add: ["NET_RAW"]
+
+##### STEP 3 #####
+vim testpod.yml
+kubectl apply -f testpod.yml
+kubectl get pods -o wide
+kubectl exec -it testpod -- sh
+ping -c3 <webpod-ip>
+kubectl exec -it webpod -- sh
+ping -c3 <testpod-ip>
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod
+  labels:
+    app: web
+spec:
+  containers:
+  - name: c1
+    image: quay.io/gauravkumar9130/nginxdemo
+    securityContext:
+      capabilities:
+        add: ["NET_RAW"]			

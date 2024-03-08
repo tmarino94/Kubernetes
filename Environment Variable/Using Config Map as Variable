@@ -1,0 +1,47 @@
+###### STEP 1 ######
+vim cm-creds.yml
+kubectl apply -f cm-creds.yml
+kubectl get cm
+
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-credentials
+data:
+  MYSQL_ROOT_PASSWORD: Whizl@b$
+  MYSQL_PASSWORD: whizlabs
+  MYSQL_USER: whiz
+
+
+###### STEP 2 #####
+vim db.yml
+kubectl apply -f db.yml
+kubectl get pods
+kubectl exec -it <pod-name> -- env
+kubectl exec -it <pod-name> -- bash
+mysql -u root -p
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cm-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: db
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+      - name: my-container
+        image: quay.io/gauravkumar9130/mysql
+        envFrom:
+        - configMapRef:
+            name: cm-credentials

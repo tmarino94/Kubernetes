@@ -1,3 +1,12 @@
+
+kubectl get pods --show-labels
+kubectl get pods -l environment=production
+kubectl get pods -l environment=development
+kubectl get pods --selector='environment in (development,production)
+kubectl delete pods --selector=environment=production
+kubectl delete pods --selector=environment=development
+
+
 Label and Selector
 
 apiVersion: v1
@@ -11,10 +20,3 @@ spec:
   containers:
   - name: nginx
     image: nginx:latest
-
-kubectl get pods --show-labels
-kubectl get pods -l environment=production
-kubectl get pods -l environment=development
-kubectl get pods --selector='environment in (development,production)
-kubectl delete pods --selector=environment=production
-kubectl delete pods --selector=environment=development

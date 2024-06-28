@@ -1,3 +1,4 @@
+##### STEP 1 ######
 nano daemonset.yml
 kubectl apply -f daemonset.yml
 kubectl get daemonset

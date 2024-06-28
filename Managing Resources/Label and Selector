@@ -1,4 +1,4 @@
-
+##### STEP 1 ######
 kubectl get pods --show-labels
 kubectl get pods -l environment=production
 kubectl get pods -l environment=development

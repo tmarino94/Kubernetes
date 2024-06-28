@@ -1,3 +1,4 @@
+##### STEP 1 ######
 nano replica_set.yml
 kubectl apply -f replica_set.yml
 kubectl describe replicaset/frontend

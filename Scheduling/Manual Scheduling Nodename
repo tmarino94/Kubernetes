@@ -1,3 +1,4 @@
+##### STEP 1 ######
 nano random-pod.yaml
 kubectl create -f random-pod.yaml
 kubectl get pods -o wide

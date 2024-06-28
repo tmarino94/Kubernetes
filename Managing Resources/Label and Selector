@@ -1,13 +1,8 @@
 ##### STEP 1 ######
+nano labelpod.yml
+kubectl apply -f labelpod.yml
 kubectl get pods --show-labels
-kubectl get pods -l environment=production
-kubectl get pods -l environment=development
-kubectl get pods --selector='environment in (development,production)
-kubectl delete pods --selector=environment=production
-kubectl delete pods --selector=environment=development
 
-
-Label and Selector
 
 apiVersion: v1
 kind: Pod
@@ -20,3 +15,32 @@ spec:
   containers:
   - name: nginx
     image: nginx:latest
+
+##### STEP 2 ######
+nano labelpod2.yml
+kubectl apply -f labelpod2.yml
+kubectl get pods --show-labels
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-demo2
+  labels:
+    environment: development
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+
+
+##### STEP 3 ######
+kubectl get pods -l environment=production
+kubectl get pods -l environment=development
+kubectl get pods --selector='environment in (development,production)
+kubectl delete pods --selector=environment=production
+kubectl delete pods --selector=environment=development
+
+
+

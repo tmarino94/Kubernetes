@@ -3,13 +3,13 @@ vim configmap.yaml
 kubectl apply -f configmap.yaml
 
 
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: my-config
 data:
   MY_ENV_VARIABLE: "Hello from ConfigMap!"
+
 
 ##### STEP 2 #####
 vim pod.yaml

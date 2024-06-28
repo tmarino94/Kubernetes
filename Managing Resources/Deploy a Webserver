@@ -35,7 +35,6 @@ kubectl exec -it testpod1 -c c00 -- ls /
 kubectl delete pods --all
 
 
-
 apiVersion: v1
 kind: Pod
 metadata:
@@ -48,9 +47,3 @@ spec:
     - name: c01
       image: ubuntu
       command: ["/bin/bash", "-c", "while true; do echo Hello-Programmer; sleep 5 ; done"]
-
-
-echo "Hello from inside the container" > myfile.txt
-exit
-kubectl exec -it testpod1 -c c00 -- ls /
-kubectl delete pods --all

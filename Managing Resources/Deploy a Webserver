@@ -1,5 +1,4 @@
-Deploying  a webserver as a pod 
-
+##### STEP 1 ######
 Verify Cluster Configuration
 kubectl version
 systemctl status kubelet : verify Kubelet service

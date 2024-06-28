@@ -1,3 +1,4 @@
+##### STEP 1 ######
 nano replication_controller.yml
 kubectl apply -f replication_controller.yml
 kubectl get pods

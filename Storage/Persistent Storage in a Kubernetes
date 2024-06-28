@@ -19,11 +19,11 @@ spec:
   hostPath:
     path: "/mnt/labs"			
 
+
 #### STEP 2 #####
 vim volume_claim.yaml
 kubectl apply -f volume_claim.yaml
 kubectl get pvc
-
 
 
 apiVersion: v1
@@ -50,7 +50,6 @@ kubectl get pods -o wide
 curl <ip-of-pod>/myfile.html
 
 
-
 apiVersion: v1
 kind: Pod
 metadata:
@@ -65,16 +64,12 @@ spec:
     image: quay.io/gauravkumar9130/nginx
     volumeMounts:
     - mountPath: "/usr/share/nginx/html"
-      name: task-pv-storage			
+      name: task-pv-storage				
 
 
-#### STEP 4 WORKER 2 ######
-ls /mnt/labs
-exit
-
-
-##### STEP 5 ####
+##### STEP 4 ####
 kubectl delete pods task-pv-pod
 kubectl apply -f pvc_pod.yaml
 kubectl get pods -o wide
 curl <ip-of-pod>/myfile.html
+

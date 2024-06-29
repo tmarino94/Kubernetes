@@ -2,6 +2,17 @@
 kubectl version
 systemctl status kubelet
 kubectl get pods --all-namespaces
+
+
+##### STEP 2 ######
 wget https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
 kubectl apply -f metallb-native.yaml
 kubectl get pods -n metallb-system
+
+
+
+Metal LB in Kubernetes provides Layer 2 (ARP) and Border Gateway Protocol (BGP) support, allowing for flexible IP address 
+management and advertisement. In bare-metal environments, Metal LB extends Kubernetes capabilities by allocating and 
+managing external IP addresses for services, seamlessly integrating with the network topology and distributing load across 
+cluster nodes. This enables users to define Load Balancer services in Kubernetes, with Metal LB handling the allocation of 
+external IP addresses and load balancing for those services, even in the absence of cloud providers.

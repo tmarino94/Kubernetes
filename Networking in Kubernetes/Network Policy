@@ -43,3 +43,10 @@ spec:
         matchLabels:
           app: db
 
+
+
+Network Policies in Kubernetes enable administrators to define and enforce granular rules for incoming (ingress) and 
+outgoing (egress) traffic among pods within a cluster. By utilizing pod selectors based on labels, administrators can 
+precisely manage the flow of traffic, allowing for effective network segmentation and enhanced security. 
+These policies can be defined in YAM  L or JSON format, providing a standardized and readable way to express desired 
+network rules.

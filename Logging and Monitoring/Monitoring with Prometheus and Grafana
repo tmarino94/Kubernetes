@@ -9,3 +9,8 @@ kubectl get all -n monitoring
 <Worker-1-SSH-COMMAND> ec2metadata --public-ipv4
 kubectl get svc -n monitoring
 kubectl rollout restart deployment coredns -n kube-system
+
+
+#### STEP 3 ####
+Open a new browser window and navigate to the extracted external IP along with the port number you obtained (E.g. <IP-address>:<Port-No>).
+Use admin as the Username and, the password as admin. If prompted to change password click Skip button.

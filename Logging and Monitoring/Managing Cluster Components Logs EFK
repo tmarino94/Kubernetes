@@ -1,10 +1,22 @@
+##### STEP 1 ######
 sudo apt-get install unzip
 wget https://labresources.whizlabs.com/a47a1b10487113afff392e9c80f5a5a6/whizlabs-kube-elk.zip && unzip whizlabs-kube-elk.zip
 cd whizlabs-kube-elk
+
+
+##### STEP 2 ######
 kubectl create -f 1-elastic.yml
 kubectl get pods -o wide
+
+##### STEP 3 ######
 nano 2-kibana.yml
+Replace <ELASTICSEARCH-IP-ADDRESS> with the one copied in first step. Save it by typing CTRL+X, and Y, press Enter. 
 kubectl create -f 2-kibana.yml
 kubectl create -f 3-filebeat.yml
+kubectl get pods -A
+kubectl get pods -A
+
+
+##### STEP 4 ######
 <Worker-1-SSH-COMMAND> ec2metadata --public-ipv4
 kubectl get svc

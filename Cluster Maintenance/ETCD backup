@@ -1,9 +1,13 @@
+###### STEP 1 ######
 kubectl version
 systemctl status kubelet
 kubectl get nodes
 kubectl create ns test
 kubectl run mypod --image=nginx -n test
 kubectl get pods -n test
+
+
+###### STEP 2 ######
 sudo apt-get install etcd-client
 sudo su
 
@@ -14,6 +18,8 @@ ETCDCTL_API=3 etcdctl \
 --key=/etc/kubernetes/pki/etcd/server.key \
 snapshot save /tmp/etcd.db
 
+
+###### STEP 3 ######
 kubectl delete ns test
 
 ETCDCTL_API=3 etcdctl \
@@ -26,6 +32,7 @@ snapshot status /tmp/etcd.db
 
 systemctl stop kubelet
 
+###### STEP 4 ######
 ETCDCTL_API=3 etcdctl \
 --endpoints=https://127.0.0.1:2379 \
 --cacert=/etc/kubernetes/pki/etcd/ca.crt \
@@ -35,6 +42,9 @@ snapshot restore /tmp/etcd.db
 
 rm -rf /var/lib/etcd/member
 mv default.etcd/member /var/lib/etcd
+
+
+###### STEP 5 ######
 systemctl start kubelet
 reboot
 kubectl get pods -n test

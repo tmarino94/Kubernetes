@@ -1,3 +1,4 @@
+###### STEP 1 ######
 kubectl run pod01 --image=quay.io/gauravkumar9130/nginxdemo
 kubectl run pod02 --image=quay.io/gauravkumar9130/nginxdemo
 kubectl get pods -o wide

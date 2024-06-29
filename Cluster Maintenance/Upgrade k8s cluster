@@ -1,6 +1,10 @@
+###### STEP 1 ######
 kubectl version
 systemctl status kubelet
 kubectl get nodes
+
+
+###### STEP 2 ######
 kubectl cordon <nodename>
 kubectl get nodes
 kubectl drain <nodename> --force --ignore-daemonsets --delete-emptydir-data

@@ -1,9 +1,8 @@
+###### STEP 1 ######
 nano cron-job.yaml
 kubectl apply -f cron-job.yaml
 kubectl get cronjob volume-snapshot-cronjob
 kubectl get job
-kubectl describe job volume-snapshot-cronjob
-kubectl logs -l app=volume-snapshot | grep -v "ls:"
 
 
 apiVersion: batch/v1
@@ -31,3 +30,11 @@ spec:
               ls -la /data # Check contents of /data directory
               echo "Snapshot taken at: $(date)"
           restartPolicy: OnFailure
+
+
+###### STEP 2 ######
+kubectl describe job volume-snapshot-cronjob
+kubectl logs -l app=volume-snapshot | grep -v "ls:"
+
+
+

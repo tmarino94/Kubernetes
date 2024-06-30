@@ -7,7 +7,8 @@ mysql -u sam -p
 Enter password
 exit
 
-Leveraging environment variables (env) in Kubernetes allows dynamic configuration within pods, facilitating easy adjustments without altering container images. 
+Leveraging environment variables (env) in Kubernetes allows dynamic configuration within pods, 
+facilitating easy adjustments without altering container images. 
 This flexibility streamlines application deployment and management in diverse environments.
 
 
